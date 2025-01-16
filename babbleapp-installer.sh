@@ -63,7 +63,6 @@ fi
 eval "$(micromamba shell hook -s bash)"
 micromamba activate -p babble-env
 
-source venv/bin/activate  
 echo "Verifying dependencies. This might take a second!"
 install_requirements
 echo "Starting Babble app..."

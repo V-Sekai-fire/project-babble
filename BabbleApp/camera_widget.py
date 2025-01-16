@@ -1,7 +1,7 @@
 from collections import deque
 from queue import Queue, Empty
 from threading import Event, Thread
-import PySimpleGUI as sg
+import FreeSimpleGUI as sg
 import cv2
 from babble_processor import BabbleProcessor, CamInfoOrigin
 from camera import Camera, CameraState, MAX_RESOLUTION
