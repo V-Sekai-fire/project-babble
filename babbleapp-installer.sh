@@ -14,18 +14,16 @@ fi
     
 python_version_major=$(python3 -c 'import platform; print(platform.python_version_tuple()[0])')
 python_version_minor=$(python3 -c 'import platform; print(platform.python_version_tuple()[1])')
-if (( python_version_major < 3 || python_version_minor < 8 )); then    
-    echo "Error: Your Python version is too low! Please install 3.8 or higher."    
+if (( python_version_major < 3 || python_version_minor < 9 )); then    
+    echo "Error: Your Python version is too low! Please install 3.9 or higher."    
     exit 1
 fi
 
 install_dir="$HOME/.local/share/project-babble"
 bin_dir="$HOME/.local/bin"
 
-# Create installation directory if it doesn't exist
 mkdir -p "$install_dir"
 
-# Function to install requirements
 install_requirements() {
     cd "$install_dir"
     cd BabbleApp
@@ -34,14 +32,36 @@ install_requirements() {
     rm requirements.txt
 }
 
+rm -rf ~/.local/share/project-babble
 cp -r . "$install_dir"
 cd "$install_dir"
 cd BabbleApp
 
-# Create venv if it does not exists
-if ! [ -d "venv" ]; then
-    python3 -m venv venv
+if ! command -v micromamba &> /dev/null; then
+    echo "Installing micromamba..."
+    if [[ "$OSTYPE" == "darwin"* ]]; then
+        if [[ "$(uname -m)" == "arm64" ]]; then
+            micromamba_url="https://micromamba.snakepit.net/api/micromamba/osx-arm64/latest"
+        else
+            micromamba_url="https://micromamba.snakepit.net/api/micromamba/osx-64/latest"
+        fi
+    else
+        micromamba_url="https://micromamba.snakepit.net/api/micromamba/linux-64/latest"
+    fi
+    curl -L "$micromamba_url" | tar -xvj bin/micromamba
+    mkdir -p ~/micromamba/bin
+    mv bin/micromamba ~/micromamba/bin/
+    rm -rf bin
+    export PATH="$HOME/micromamba/bin:$PATH"
 fi
+
+if [ ! -d "mamba-env" ]; then
+    echo "Creating micromamba environment with Python 3.10..."
+    micromamba create -y -p babble-env python=3.10
+fi
+
+eval "$(micromamba shell hook -s bash)"
+micromamba activate -p babble-env
 
 source venv/bin/activate  
 echo "Verifying dependencies. This might take a second!"

@@ -17,7 +17,7 @@ Copyright (c) 2023 Project Babble <3
 """
 
 import os
-import PySimpleGUI as sg
+import FreeSimpleGUI as sg
 import queue
 import requests
 import threading

@@ -1,10 +1,10 @@
-onnxruntime==1.20.1
+onnxruntime==1.19.2
 opencv_python==4.10.0.84
 pillow==11.0.0
-pysimplegui==4.70.1
+FreeSimpleGUI==5.1.1
 python_osc==1.9.0
-torch==2.4.1
-torchvision==0.19.1
+torch
+torchvision
 pydantic==1.10.18
 pyserial==3.5
 colorama==0.4.6
