@@ -57,11 +57,11 @@ fi
 
 if [ ! -d "mamba-env" ]; then
     echo "Creating micromamba environment with Python 3.10..."
-    micromamba create -y -p babble-env python=3.10
+    micromamba create -y -n babble-env python=3.10
 fi
 
 eval "$(micromamba shell hook -s bash)"
-micromamba activate -p babble-env
+micromamba activate -n babble-env
 
 echo "Verifying dependencies. This might take a second!"
 install_requirements
