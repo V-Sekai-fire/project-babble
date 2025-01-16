@@ -30,41 +30,11 @@ install_requirements() {
     cd "$install_dir"
     cd BabbleApp
     echo "Installing requirements..."
-    # Create a temporary requirements file without the Windows-only package
-    grep -v "onnxruntime-directml" requirements.txt > linux_requirements.txt
-    pip install -r linux_requirements.txt --quiet
-    rm linux_requirements.txt
+    pip install -r requirements.txt --quiet
+    rm requirements.txt
 }
 
-# Function to get the latest release tag
-get_latest_tag() {
-    git fetch --tags
-    git describe --tags --abbrev=0
-}
-
-# Function to update the repository
-update_repo() {
-    echo "Checking for updates..."
-    git fetch --tags
-    local_tag=$(git describe --tags --abbrev=0)
-    remote_tag=$(git describe --tags --abbrev=0 origin/main)
-    
-    if [ "$local_tag" != "$remote_tag" ]; then
-        echo "New version available: $remote_tag"
-        echo "Current version: $local_tag"
-        echo "Updating to the latest version..."
-        git checkout "$remote_tag"
-        echo "Updating dependencies..."
-        source venv/bin/activate
-        install_requirements
-        deactivate
-        echo "Project Babble has been updated successfully to version $remote_tag!"
-    else
-        echo "Project Babble is already at the latest version: $local_tag"
-    fi
-}
-
-
+cp -r . "$install_dir"
 cd "$install_dir"
 cd BabbleApp
 
@@ -74,7 +44,6 @@ if ! [ -d "venv" ]; then
 fi
 
 source venv/bin/activate  
-update_repo
 echo "Verifying dependencies. This might take a second!"
 install_requirements
 echo "Starting Babble app..."

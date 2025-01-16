@@ -25,7 +25,7 @@ from ctypes import c_int
 from babble_model_loader import *
 from camera_widget import CameraWidget
 from config import BabbleConfig
-from tab import CamInfo, Tab
+from tab import Tab
 from osc import VRChatOSCReceiver, VRChatOSC
 from general_settings_widget import SettingsWidget
 from algo_settings_widget import AlgoSettingsWidget
